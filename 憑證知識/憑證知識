@@ -1,0 +1,51 @@
+公鑰基礎架構
+Public-Key-Interface
+
+憑證與私密金鑰格式
+1.DER,PEM
+DER為檔案內容二進制格式,常見副檔名有.der .cert .crt 
+
+PEM為檔案內容為BASE64格式,內容為DER檔案經過BASE64
+通常具有 -----BEGIN ****-----開頭,------END ***-----結尾
+常見副檔名有.pem,.cert,.crt
+
+備註:CER,CERT,CRT都是Certificate的縮寫
+
+憑證類型
+1.KEY類型
+用來存放public-key private-key,編碼格式可能是DER or PEM 但通常為.pem
+常見的副檔名為*.key
+
+2.CSR(CerfiticateSigningReuqest)/PKCS10
+CSR = 憑證請求檔,要求CA簽屬憑證的檔案
+需要透過自己產生的private-key產生CSR,然後這份CSR須包含Subject
+與Public key,再將CSR交給CA中心,會回傳一個具有public-key的Certifecate
+
+3.P7B/PKCS7
+這類檔案只會有憑證及中繼憑證 ,不會具有PRIVATE-KEY
+內容採用PEM編碼,常見副檔名有p7b,p7c,keystore
+
+4.PKCS8
+P8主要是私密金鑰,但須加上密碼
+其內容採用 PEM 編碼 ( 意即 Base64 編碼過的文字格式 )
+檔案開頭: -----BEGIN ENCRYPTED PRIVATE KEY-----
+檔案結尾: -----END ENCRYPTED PRIVATE KEY-----
+常見副檔名有
+*.key
+*.pkcs8.key
+
+5.PFX/PKCS12
+檔案中同時包含憑證、中繼憑證、私密金鑰,即為P12
+可以將P12轉出 憑證 及私鑰,常見格式 .pfx .p12
+
+憑證申請程序
+1. create private-key
+2. create csr by private-key
+3. user send csr to registery Authorthy
+4. RA驗證申請資格,將CSR交給CA產出CER檔
+5. CA將CER交給User 
+6. User將Cer與private-key合成PFX
+7. 客戶交pfx安裝上伺服器
+
+
+
